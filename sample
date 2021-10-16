@@ -117,6 +117,8 @@ resource "aws_instance" "web_server_instance" {
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
   key_name          = "main-key"
+  
+  #Please remind that the key_name is REGIONAL, means that when you r using in us east, then cannot use on ap southeast
 
   network_interface {
     device_index         = 0
