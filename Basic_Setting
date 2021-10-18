@@ -2,7 +2,7 @@
 #ex:AWS ,Azure,Google Cloud
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-southeast-1"
 
 #region is differ 
   access_key = "xxxxxxxxxxxxxxxx"
@@ -43,7 +43,7 @@ resource "aws_route_table" "terraform-route-table" {
 resource "aws_subnet" "terraform-subnet" {
   vpc_id     = aws_vpc.terraform-vpc.id
   cidr_block = "192.168.1.0/24"
-  availability_zone ="us-east-1a"
+  availability_zone ="ap-southeast-1a"
 
   tags = {
     Name = "first-subnet"
@@ -115,7 +115,7 @@ resource "aws_eip" "lb" {
 resource "aws_instance" "web_server_instance" {
   ami               = "ami-085925f297f89fce1"
   instance_type     = "t2.micro"
-  availability_zone = "us-east-1a"
+  availability_zone = "ap-southeast-1a"
   key_name          = "main-key"
   
   #Please remind that the key_name is REGIONAL, means that when you r using in us east, then cannot use on ap southeast
