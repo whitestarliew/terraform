@@ -13,7 +13,7 @@ provider "aws" {
 #You need to create a keypair first 
 #1Create VPC
 resource "aws_vpc" "terraform-vpc" {
-  cidr_block       = "192.168.0.0/20"
+  cidr_block       = "192.168.0.0/16"
 }
 #2Create Internet Gateway
 resource "aws_internet_gateway" "gw" {
