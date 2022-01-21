@@ -17,13 +17,13 @@ module "eks" {
 
   cluster_endpoint_private_access      = true
   cluster_endpoint_public_access       = true
-  cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"] # TODO(cp) allow only vpn / ArgoCD
+  cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"] 
 
   tags = local.tags
 
   node_groups_defaults = {
     ami_type  = "AL2_x86_64"
-    disk_size = 80
+    disk_size = 200
   }
 
   node_groups = {
