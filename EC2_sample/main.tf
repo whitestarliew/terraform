@@ -36,6 +36,15 @@ resource "aws_instance" "test1_instance" {
   }
 }
 
+# NAT Gateway Configuration
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = "YOUR_DEFAULT_SUBNET_ID"
+}
 
 /*resource "aws_key_pair" "terraform" {
 	key_name = "terraform"
