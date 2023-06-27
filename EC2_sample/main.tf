@@ -60,7 +60,7 @@ resource "aws_instance" "bastion_host" {
   key_name = "terraform"
 
   root_block_device {
-    volume_size = 80
+    volume_size = 8
     volume_type = "gp2"
  }
   tags = {
