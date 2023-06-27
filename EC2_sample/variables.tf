@@ -4,6 +4,12 @@ variable "ami_id" {
     default = "ami-01e5ff16fd6e8c542"
 }
 
+variable "default_vpc_id" {
+  description = "ID of the default VPC"
+  type        = string
+  default     = "default-vpc"
+}
+
 variable instance_type {
     description = "This is a instance type"
     type        = string
