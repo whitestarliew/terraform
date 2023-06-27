@@ -17,3 +17,9 @@ variable aws_region {
     default = "us-east-1"
 }
 
+variable subnet_id {
+    description = "This is a default subnet id"
+    type = string
+    default = "subnet-0f70608e59bb5f6aa"
+  
+}

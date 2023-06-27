@@ -17,9 +17,9 @@ provider "aws" {
 
 
 resource "aws_instance" "test1_instance" {
-  ami           = var.ami_id // Replace with your desired AMI ID
+  ami           = var.ami_id 
   instance_type = var.instance_type
-  subnet_id     = "subnet-0f70608e59bb5f6aa" // Replace with your desired subnet ID
+  subnet_id     = var.subnet_id
   /* associate_public_ip_address = true */
   key_name = "terraform"
 
@@ -43,7 +43,7 @@ resource "aws_eip" "nat_eip" {
 
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = "YOUR_DEFAULT_SUBNET_ID"
+  subnet_id     = var.subnet_id
 }
 
 /*resource "aws_key_pair" "terraform" {
@@ -53,7 +53,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 
 # Bastion Host 
 resource "aws_instance" "bastion_host" {
-  ami           = var.ami_id // Replace with your desired AMI ID
+  ami           = var.ami_id 
   instance_type = var.instance_type
   subnet_id     = "subnet-0f70608e59bb5f6aa" // Replace with your desired subnet ID
   associate_public_ip_address = true
