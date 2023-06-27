@@ -59,6 +59,15 @@ resource "aws_instance" "bastion_host" {
  }
 }
 
+# NAT Gateway Configuration
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = "YOUR_DEFAULT_SUBNET_ID"
+}
 
 output "bastion_public_ip" {
   value = aws_instance.bastion_host.public_ip
