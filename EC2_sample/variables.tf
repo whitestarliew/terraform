@@ -20,6 +20,12 @@ variable aws_region {
 variable subnet_id {
     description = "This is a default subnet id"
     type = string
-    default = "subnet-0f70608e59bb5f6aa"
+    default = "subnet-1a"
   
+}
+
+variable "private_subnet_id" {
+  description = "existing subnet for private instance"
+  type        = string
+  default     = "private-subnet"
 }
