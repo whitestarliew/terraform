@@ -17,15 +17,15 @@ provider "aws" {
 
 # Subnet Configuration
 resource "aws_subnet" "private_subnet" {
-  vpc_id                  = aws_vpc.my_vpc.id
+  vpc_id                  = var.default_vpc_id
   cidr_block              = var.private_subnet_cidr
-  availability_zone       = "us-west-2a"
+  availability_zone       = var.aws_region
   map_public_ip_on_launch = false
 }
 
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.default_vpc_id
 }
 
 # Route Configuration
