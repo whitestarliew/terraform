@@ -51,7 +51,7 @@ resource "aws_instance" "private_instance" {
 
 
   root_block_device {
-    volume_size = 8
+    volume_size = 10
     volume_type = "gp2"
   }
 
