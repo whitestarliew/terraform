@@ -25,7 +25,7 @@ resource "aws_subnet" "private_subnet" {
 
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.default_vpc_id
+  vpc_id = var.default_vpc_id
 }
 
 # Route Configuration
