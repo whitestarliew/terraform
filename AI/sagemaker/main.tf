@@ -2,14 +2,14 @@ provider "aws" {
   region = "us-west-2"
 }
 
-resource "aws_sagemaker_notebook_instance" "example" {
-  name             = "example-notebook-instance"
-  instance_type    = "ml.t2.medium"
+resource "aws_sagemaker_notebook_instance" "ML_instance" {
+  name             = "ML_instance"
+  instance_type    = "ml.t2.micro"
   role_arn         = aws_iam_role.example.arn
   lifecycle_config = aws_sagemaker_notebook_instance_lifecycle_configuration.example.name
 
   tags = {
-    Name        = "example-notebook-instance"
+    Name        = "Machine-Learning-Instance"
     Environment = "dev"
   }
 }
