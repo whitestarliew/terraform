@@ -12,11 +12,12 @@ source "amazon-ebs" "block-storage" {
   instance_type = "t2.micro"
   region        = "us-west-2"
   source_ami    = "ami-12345678" #Replace with the AMI ID 
+  ssh_username  = "admin"
 }
 
 build {
   name    = "example-ami"
-  sources = ["source.amazon-ebs.example"]
+  sources = ["source.amazon-ebs.block-storage"]
 
   provisioner "shell" {
     inline = [
