@@ -17,4 +17,20 @@ source "amazon-ebs" "block-storage" {
 build {
   name    = "example-ami"
   sources = ["source.amazon-ebs.example"]
+
+  provisioner "shell" {
+    inline = [
+      "apt-get update",
+      "apt-get install -y git",
+      "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh",
+      "bash /tmp/miniconda.sh -b -p /opt/miniconda",
+      "echo 'export PATH=/opt/miniconda/bin:$PATH' >> /etc/profile",
+      "source /etc/profile"
+    ]
+  }
 }
+
+
+
+
+
