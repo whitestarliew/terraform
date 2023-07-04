@@ -7,17 +7,23 @@ packer {
   }
 }
 
-source "amazon-ebs" "block-storage" {
+source "amazon-ebs" "Debian" {
   ami_name      = "my-ami-{{timestamp}}"
   instance_type = "t2.micro"
   region        = "us-west-2"
-  source_ami    = "ami-12345678" #Replace with the AMI ID 
+  source_ami_filter {
+    filters = {
+        name    = "debian/images/*/
+        root-devide-type = "ebs"
+        virtualization-type = "hvm"
+    }
+  }
   ssh_username  = "admin"
 }
 
 build {
   name    = "example-ami"
-  sources = ["source.amazon-ebs.block-storage"]
+  sources = ["source.amazon-ebs.Debian"]
 
   provisioner "shell" {
     inline = [
