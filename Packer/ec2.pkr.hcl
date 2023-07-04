@@ -14,15 +14,18 @@ source "amazon-ebs" "Debian" {
   ssh_username  = "admin"
   source_ami_filter {
     filters = {
-        name    = "debian/images/
+        name    = "my-ami-*"
         root-devide-type = "ebs"
         virtualization-type = "hvm"
+    "name" = "debian-stretch-*"  # Filter by Debian OS version (e.g., Stretch)
     }
   }
 }
 
+/* */
+
 build {
-  name    = "example-ami"
+  name    = "debian-ami"
   sources = ["source.amazon-ebs.Debian"]
 
   provisioner "shell" {
