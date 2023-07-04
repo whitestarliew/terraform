@@ -11,8 +11,6 @@ terraform {
 provider "aws" {
 #profile = "your-profile-name"
   region = var.aws_region
-  #access_key = ""
-  #secret_key = ""
 }
 
 # Subnet Configuration
@@ -60,6 +58,8 @@ resource "aws_instance" "private_instance" {
   tags = {
     Name = "private Instance"
   }
+
+  depends_on = [ aws_nat_gateway.nat_gateway ]
 }
 
 # NAT Gateway Configuration
@@ -105,7 +105,5 @@ output "nat_gateway_id" {
 
 module "aws_s3_bucket" {
   source = "./modules_s3"
-  ami    = "data.aws.ami.ubuntu.id"
-  subnet_id = "aws_subnet.public_subnets"["public_subnet_3"].id
-  security_groups = [aws_security_group.vpc-ping.id,aws_security_group.ingress-]
+
 }

@@ -46,3 +46,5 @@ variable "public_cidr" {
   description = "existing subnet for private instance"
   type        = string
   default = "0.0.0.0/0"
+
+}
