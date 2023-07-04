@@ -11,14 +11,14 @@ source "amazon-ebs" "Debian" {
   ami_name      = "my-ami-{{timestamp}}"
   instance_type = "t2.micro"
   region        = "us-west-2"
+  ssh_username  = "admin"
   source_ami_filter {
     filters = {
-        name    = "debian/images/*/
+        name    = "debian/images/
         root-devide-type = "ebs"
         virtualization-type = "hvm"
     }
   }
-  ssh_username  = "admin"
 }
 
 build {
