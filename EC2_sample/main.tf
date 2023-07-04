@@ -103,10 +103,9 @@ output "nat_gateway_id" {
   value = aws_nat_gateway.nat_gateway.id  
 }
 
-/*module "server" {
-  source = "./server"
+module "aws_s3_bucket" {
+  source = "./modules_s3"
   ami    = "data.aws.ami.ubuntu.id"
   subnet_id = "aws_subnet.public_subnets"["public_subnet_3"].id
   security_groups = [aws_security_group.vpc-ping.id,aws_security_group.ingress-]
 }
-*/
