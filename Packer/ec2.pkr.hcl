@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 0.0.2"
+      version = ">= 1.0.0"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -10,19 +10,10 @@ packer {
 source "amazon-ebs" "Debian" {
   ami_name      = "my-ami-{{timestamp}}"
   instance_type = "t2.micro"
-  region        = "us-west-2"
+  region        = "us-east-1"
   ssh_username  = "admin"
-  source_ami_filter {
-    filters = {
-        name    = "my-ami-*"
-        root-devide-type = "ebs"
-        virtualization-type = "hvm"
-    "name" = "debian-stretch-*"  # Filter by Debian OS version (e.g., Stretch)
-    }
-  }
+  source_ami    = "ami-0ba3123355c7d55d3"
 }
-
-/* */
 
 build {
   name    = "debian-ami"
@@ -30,15 +21,16 @@ build {
 
   provisioner "shell" {
     inline = [
-      "apt-get update",
-      "apt-get install -y git",
+      "sudo apt-get update",
+      "sudo apt-get install -y git",
       "wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh",
-      "bash /tmp/miniconda.sh -b -p /opt/miniconda",
-      "echo 'export PATH=/opt/miniconda/bin:$PATH' >> /etc/profile",
-      "source /etc/profile"
+      "sudo bash /tmp/miniconda.sh -b -p /opt/miniconda",
+      "echo 'export PATH=/opt/miniconda/bin:$PATH' | sudo tee -a /etc/profile",
+      ". /etc/profile"
     ]
   }
 }
+
 
 
 
