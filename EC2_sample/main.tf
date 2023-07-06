@@ -33,7 +33,7 @@ resource "aws_route" "private_route" {
   nat_gateway_id         = aws_nat_gateway.nat_gateway.id
 }
 
-# Subnet Association Configuration
+# Private Subnet Association Configuration
 resource "aws_route_table_association" "private_subnet_association" {
   subnet_id      = aws_subnet.private_subnet.id
   route_table_id = aws_route_table.private_route_table.id
@@ -77,22 +77,6 @@ resource "aws_nat_gateway" "nat_gateway" {
 	public_key = file("~/IT_Code/terraform.pem")
 }*/
 
-# Bastion Host 
-# resource "aws_instance" "bastion_host" {
-#   ami           = var.ami_id 
-#   instance_type = var.instance_type
-#   subnet_id     = "subnet-0f70608e59bb5f6aa" // Replace with your desired subnet ID
-#   associate_public_ip_address = true
-#   key_name = "terraform"
-
-#   root_block_device {
-#     volume_size = 10
-#     volume_type = "gp2"
-#  }
-#   tags = {
-#   Name = "Example Instance"
-#  }
-# }
 
 
 # output "bastion_public_ip" {
