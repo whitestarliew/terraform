@@ -75,9 +75,6 @@ resource "aws_instance" "private_instance" {
 #   value = aws_instance.bastion_host.public_ip
 # }
 
-output "nat_gateway_id" {
-  value = aws_nat_gateway.nat_gateway.id  
-}
 
 module "aws_s3_bucket" {
   source = "./modules"
