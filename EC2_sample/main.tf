@@ -91,3 +91,8 @@ module "aws_s3_bucket" {
   source = "./modules"
 
 }
+
+# module "autoscaling_example_asg_ec2" {
+#   source  = "terraform-aws-modules/autoscaling/aws//examples/asg_ec2"
+#   version = "2.0.0"
+# }
