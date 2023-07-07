@@ -39,7 +39,7 @@ resource "aws_route_table_association" "private_subnet_association" {
   route_table_id = aws_route_table.private_route_table.id
 }
 
-
+#EC2 instance
 resource "aws_instance" "private_instance" {
   ami           = var.ami_id 
   instance_type = var.instance_type
@@ -88,6 +88,6 @@ output "nat_gateway_id" {
 }
 
 module "aws_s3_bucket" {
-  source = "./modules_s3"
+  source = "./modules"
 
 }
