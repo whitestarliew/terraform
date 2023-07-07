@@ -62,15 +62,7 @@ resource "aws_instance" "private_instance" {
   depends_on = [ aws_nat_gateway.nat_gateway ]
 }
 
-# NAT Gateway Configuration
-resource "aws_eip" "nat_eip" {
-  vpc = true
-}
 
-resource "aws_nat_gateway" "nat_gateway" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = var.subnet_id
-}
 
 /*resource "aws_key_pair" "terraform" {
 	key_name = "terraform"
@@ -92,6 +84,9 @@ module "aws_s3_bucket" {
 
 }
 
+module "aws_nat_gateway"{
+  source = "./modules/NAT_Gateway"
+}
 # module "autoscaling_example_asg_ec2" {
 #   source  = "terraform-aws-modules/autoscaling/aws//examples/asg_ec2"
 #   version = "2.0.0"
