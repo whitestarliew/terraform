@@ -62,26 +62,12 @@ resource "aws_instance" "private_instance" {
   depends_on = [ aws_nat_gateway.nat_gateway ]
 }
 
-
-
-/*resource "aws_key_pair" "terraform" {
-	key_name = "terraform"
-	public_key = file("~/IT_Code/terraform.pem")
-}*/
-
-
-
-# output "bastion_public_ip" {
-#   value = aws_instance.bastion_host.public_ip
-# }
-
-
 module "aws_s3_bucket" {
   source = "./modules"
 
 }
 
-module "aws_nat_gateway"{
+module "nat_gateway"{
   source = "./modules/NAT_Gateway"
 }
 # module "autoscaling_example_asg_ec2" {

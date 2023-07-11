@@ -1,5 +1,3 @@
-#NAT Gateway
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -13,7 +11,6 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public_subnet.id
 }
-
 
 data "aws_vpc" "default" {
   default = true
@@ -33,6 +30,6 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
-output "nat_gateway_id" {
-    value = aws_nat_gateway.nat_gateway_id
+output "nat_gateway" {
+    value = aws_nat_gateway.nat_gateway.id
 }

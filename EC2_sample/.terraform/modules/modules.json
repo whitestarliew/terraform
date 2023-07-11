@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"aws_nat_gateway","Source":"./modules/NAT_Gateway","Dir":"modules/NAT_Gateway"},{"Key":"aws_s3_bucket","Source":"./modules","Dir":"modules"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"aws_nat_gateway","Source":"./modules/NAT_Gateway","Dir":"modules/NAT_Gateway"},{"Key":"aws_s3_bucket","Source":"./modules","Dir":"modules"},{"Key":"nat_gateway","Source":"./modules/NAT_Gateway","Dir":"modules/NAT_Gateway"}]}
