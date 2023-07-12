@@ -1,3 +1,7 @@
 build {
-    sources = ["source.amazon-ebs"]
+    sources == ["source.amazon-ebs.amazonlinux-2"]
+
+    post-processor "compress" {
+        output = "{{.BuildName}}-image.zip"
+    }
 }
