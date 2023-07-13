@@ -9,7 +9,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-#profile = "your-profile-name"
+  #profile = "your-profile-name"
   region = var.aws_region
 }
 
@@ -30,7 +30,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = var.public_cidr
-  nat_gateway_id         = aws_nat_gateway.nat_gateway.id
+  nat_gateway_id         = module.nat_gateway.nat_gateway.id
 }
 
 # Private Subnet Association Configuration
@@ -41,7 +41,7 @@ resource "aws_route_table_association" "private_subnet_association" {
 
 #EC2 instance
 resource "aws_instance" "private_instance" {
-  ami           = var.ami_id 
+  ami           = var.ami_id
   instance_type = var.instance_type
   subnet_id     = var.private_subnet_id
   /* associate_public_ip_address = true */
@@ -59,7 +59,7 @@ resource "aws_instance" "private_instance" {
     Name = "private Instance"
   }
 
-  depends_on = [ aws_nat_gateway.nat_gateway ]
+  depends_on = [module.nat_gateway]
 }
 
 module "aws_s3_bucket" {
@@ -67,7 +67,7 @@ module "aws_s3_bucket" {
 
 }
 
-module "nat_gateway"{
+module "nat_gateway" {
   source = "./modules/NAT_Gateway"
 }
 # module "autoscaling_example_asg_ec2" {
