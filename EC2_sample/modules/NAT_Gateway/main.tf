@@ -18,6 +18,10 @@ data "aws_vpc" "default" {
 
 data "aws_subnet" "default" {
   vpc_id = data.aws_vpc.default.id
+  filter {
+    name   = "tag:Name"
+    values = ["subnet-1a"]
+  }
 }
 
 resource "aws_subnet" "public_subnet" {
@@ -31,5 +35,5 @@ resource "aws_subnet" "public_subnet" {
 }
 #output
 output "nat_gateway" {
-    value = aws_nat_gateway.nat_gateway.id
+    value = aws_nat_gateway.nat_gateway
 }

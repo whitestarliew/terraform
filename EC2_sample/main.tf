@@ -30,7 +30,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = var.public_cidr
-  nat_gateway_id         = module.nat_gateway.nat_gateway.id
+  nat_gateway_id         = module.nat_gateway
 }
 
 # Private Subnet Association Configuration
@@ -49,7 +49,7 @@ resource "aws_instance" "private_instance" {
 
 
   root_block_device {
-    volume_size = 10
+    volume_size = 20
     volume_type = "gp2"
   }
 
@@ -61,7 +61,7 @@ resource "aws_instance" "private_instance" {
 
   depends_on = [module.nat_gateway]
 }
-
+#Module S3 Bucket
 module "aws_s3_bucket" {
   source = "./modules"
 
