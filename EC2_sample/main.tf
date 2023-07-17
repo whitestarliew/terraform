@@ -30,11 +30,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = var.public_cidr
-<<<<<<< HEAD
-  nat_gateway_id         = module.aws_nat_gateway.nat_gateway.id
-=======
   nat_gateway_id         = module.nat_gateway
->>>>>>> 233a7b10be4c3dd1eeb40a6c5f21e39b521da617
 }
 
 # Private Subnet Association Configuration
@@ -65,8 +61,6 @@ resource "aws_instance" "private_instance" {
 
   depends_on = [module.nat_gateway]
 }
-<<<<<<< HEAD
-
 
 
 /*resource "aws_key_pair" "terraform" {
