@@ -30,7 +30,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = var.public_cidr
-  nat_gateway_id         = aws_nat_gateway.nat_gateway.id
+  nat_gateway_id         = module.aws_nat_gateway.nat_gateway.id
 }
 
 # Private Subnet Association Configuration
@@ -69,8 +69,6 @@ resource "aws_instance" "private_instance" {
 	public_key = file("~/IT_Code/terraform.pem")
 }*/
 
-
-
 # output "bastion_public_ip" {
 #   value = aws_instance.bastion_host.public_ip
 # }
@@ -83,8 +81,5 @@ module "aws_s3_bucket" {
 
 module "aws_nat_gateway"{
   source = "./modules/NAT_Gateway"
+  name = "my-nat-gateway"
 }
-# module "autoscaling_example_asg_ec2" {
-#   source  = "terraform-aws-modules/autoscaling/aws//examples/asg_ec2"
-#   version = "2.0.0"
-# }
