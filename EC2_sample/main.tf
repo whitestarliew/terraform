@@ -53,7 +53,7 @@ resource "aws_route_table_association" "private_subnet_association" {
 resource "aws_instance" "private_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  subnet_id     = var.private_subnet_id
+  subnet_id     = module.private_subnet_id
   /* associate_public_ip_address = true */
   key_name = "terraform"
 
@@ -77,3 +77,11 @@ resource "aws_instance" "private_instance" {
 # module "nat_gateway" {
 #   source = "./modules/NAT_Gateway"
 # }
+
+
+#module "private_subnet" {
+#  source             = "./modules/subnet"
+#  default_vpc_id     = var.default_vpc.id
+ # cidr_block         = var.private_subnet_cidr
+ # availability_zone  = var.availability_zone
+#}
