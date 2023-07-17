@@ -9,7 +9,6 @@ variable "default_vpc_id" {
   type        = string
   default     = "default-vpc"
 }
-
 variable "instance_type" {
   description = "This is a instance type"
   type        = string
@@ -44,7 +43,7 @@ variable "private_subnet_id" {
 variable "private_subnet_cidr" {
   description = "existing subnet for private instance"
   type        = string
-  default     = "10.2.4.0/25"
+  default     = "172.31.33.0/24"
 }
 
 variable "public_cidr" {

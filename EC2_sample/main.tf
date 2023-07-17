@@ -13,9 +13,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+
+data "aws_vpc" "default_vpc" {
+  filter {
+    name   = "tag:Name"
+    values = [var.default_vpc_id]
+  }
+}
 # Subnet Configuration
 resource "aws_subnet" "private_subnet" {
-  vpc_id                  = var.default_vpc_id
+  vpc_id                  = data.aws_vpc.default_vpc.id
   cidr_block              = var.private_subnet_cidr
   availability_zone       = var.availability_zone
   map_public_ip_on_launch = false
@@ -24,7 +31,7 @@ resource "aws_subnet" "private_subnet" {
 
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
-  vpc_id = var.default_vpc_id
+  vpc_id = data.aws_vpc.default_vpc.id
 }
 
 
