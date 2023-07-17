@@ -63,23 +63,6 @@ resource "aws_instance" "private_instance" {
 }
 
 
-/*resource "aws_key_pair" "terraform" {
-	key_name = "terraform"
-	public_key = file("~/IT_Code/terraform.pem")
-}*/
-
-# output "bastion_public_ip" {
-#   value = aws_instance.bastion_host.public_ip
-# }
-
-
-=======
-#Module S3 Bucket
->>>>>>> 233a7b10be4c3dd1eeb40a6c5f21e39b521da617
-module "aws_s3_bucket" {
-  source = "./modules"
-
-}
 
 module "nat_gateway" {
   source = "./modules/NAT_Gateway"
