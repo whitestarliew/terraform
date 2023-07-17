@@ -30,7 +30,7 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "private_route" {
   route_table_id         = aws_route_table.private_route_table.id
   destination_cidr_block = var.public_cidr
-  nat_gateway_id         = module.nat_gateway
+  nat_gateway_id         = module.nat_gateway.nat_gateway.id
 }
 
 # Private Subnet Association Configuration
@@ -66,5 +66,4 @@ resource "aws_instance" "private_instance" {
 
 module "nat_gateway" {
   source = "./modules/NAT_Gateway"
-  name = "my-nat-gateway"
 }
