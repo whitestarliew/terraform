@@ -23,6 +23,11 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "availability_zone" {
+  description = "for availability zone"
+  type        = string
+  default     = "us-east-1a"
+}
 variable "subnet_id" {
   description = "This is a default subnet id"
   type        = string

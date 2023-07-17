@@ -17,21 +17,24 @@ provider "aws" {
 resource "aws_subnet" "private_subnet" {
   vpc_id                  = var.default_vpc_id
   cidr_block              = var.private_subnet_cidr
-  availability_zone       = var.aws_region
+  availability_zone       = var.availability_zone
   map_public_ip_on_launch = false
 }
+
 
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
   vpc_id = var.default_vpc_id
 }
 
+
+
 # Route Configuration
-resource "aws_route" "private_route" {
-  route_table_id         = aws_route_table.private_route_table.id
-  destination_cidr_block = var.public_cidr
-  nat_gateway_id         = module.nat_gateway.nat_gateway.id
-}
+# resource "aws_route" "private_route" {
+#   route_table_id         = aws_route_table.private_route_table.id
+#   destination_cidr_block = var.public_cidr
+#   nat_gateway_id         = module.nat_gateway.nat_gateway.id
+# }
 
 # Private Subnet Association Configuration
 resource "aws_route_table_association" "private_subnet_association" {
@@ -49,7 +52,7 @@ resource "aws_instance" "private_instance" {
 
 
   root_block_device {
-    volume_size = 20
+    volume_size = 10
     volume_type = "gp2"
   }
 
@@ -59,11 +62,11 @@ resource "aws_instance" "private_instance" {
     Name = "private Instance"
   }
 
-  depends_on = [module.nat_gateway]
+#  depends_on = [module.nat_gateway]
 }
 
 
 
-module "nat_gateway" {
-  source = "./modules/NAT_Gateway"
-}
+# module "nat_gateway" {
+#   source = "./modules/NAT_Gateway"
+# }
