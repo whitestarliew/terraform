@@ -5,7 +5,7 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 }
 
-output "private_subnet_id" {
+output "output_private_subnet_id" {
   description = "ID of the private subnet"
   value       = aws_subnet.private_subnet.id
 }

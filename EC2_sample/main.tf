@@ -20,13 +20,6 @@ data "aws_vpc" "default_vpc" {
     values = [var.default_vpc_id]
   }
 }
-# Subnet Configuration
-# resource "aws_subnet" "private_subnet" {
-#   vpc_id                  = data.aws_vpc.default_vpc.id
-#   cidr_block              = var.private_subnet_cidr
-#   availability_zone       = var.availability_zone
-#   map_public_ip_on_launch = false
-# }
 
 
 # Route Table Configuration
@@ -37,18 +30,9 @@ resource "aws_route_table" "private_route_table" {
   }
 }
 
-
-
-# Route Configuration
-# resource "aws_route" "private_route" {
-#   route_table_id         = aws_route_table.private_route_table.id
-#   destination_cidr_block = var.public_cidr
-#   nat_gateway_id         = module.nat_gateway.nat_gateway.id
-# }
-
 # Private Subnet Association Configuration
 resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = module.private_subnet_id.private_subnet_id
+  subnet_id      = module.private_subnet_id.output_private_subnet_id
   route_table_id = aws_route_table.private_route_table.id
 }
 
@@ -56,7 +40,7 @@ resource "aws_route_table_association" "private_subnet_association" {
 resource "aws_instance" "private_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  subnet_id     = module.private_subnet_id.private_subnet_id
+  subnet_id     = module.private_subnet_id.output_private_subnet_id
   /* associate_public_ip_address = true */
   key_name = "terraform"
 
