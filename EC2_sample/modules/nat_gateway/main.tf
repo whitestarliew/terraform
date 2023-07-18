@@ -3,5 +3,5 @@ resource "aws_nat_gateway" "terraform_nat" {
   subnet_id     = aws_subnet.terraform_nat.id
 
   tags = {
-    Name = "gw NAT"
+    Name = "New NAT for terraform"
   }
