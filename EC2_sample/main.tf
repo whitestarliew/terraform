@@ -21,17 +21,20 @@ data "aws_vpc" "default_vpc" {
   }
 }
 # Subnet Configuration
-resource "aws_subnet" "private_subnet" {
-  vpc_id                  = data.aws_vpc.default_vpc.id
-  cidr_block              = var.private_subnet_cidr
-  availability_zone       = var.availability_zone
-  map_public_ip_on_launch = false
-}
+# resource "aws_subnet" "private_subnet" {
+#   vpc_id                  = data.aws_vpc.default_vpc.id
+#   cidr_block              = var.private_subnet_cidr
+#   availability_zone       = var.availability_zone
+#   map_public_ip_on_launch = false
+# }
 
 
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
   vpc_id = data.aws_vpc.default_vpc.id
+  tags = {
+    Name = "private subnet route table"
+  }
 }
 
 
@@ -45,7 +48,7 @@ resource "aws_route_table" "private_route_table" {
 
 # Private Subnet Association Configuration
 resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
+  subnet_id      = module.private_subnet_id.private_subnet_id
   route_table_id = aws_route_table.private_route_table.id
 }
 
