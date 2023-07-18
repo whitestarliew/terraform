@@ -53,10 +53,13 @@ resource "aws_route_table_association" "private_subnet_association" {
 resource "aws_instance" "private_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  subnet_id     = module.private_subnet_id
+  subnet_id     = module.private_subnet_id.private_subnet_id
   /* associate_public_ip_address = true */
   key_name = "terraform"
 
+  tags = {
+    Name = "private Instance"
+  }
 
   root_block_device {
     volume_size = 10
@@ -64,24 +67,11 @@ resource "aws_instance" "private_instance" {
   }
 
   vpc_security_group_ids = ["sg-05ad0399a6c5dd340"] // Replace with your desired security group ID
-
-  tags = {
-    Name = "private Instance"
-  }
-
-#  depends_on = [module.nat_gateway]
 }
 
 
 
-# module "nat_gateway" {
-#   source = "./modules/NAT_Gateway"
-# }
-
-
-#module "private_subnet" {
-#  source             = "./modules/subnet"
-#  default_vpc_id     = var.default_vpc.id
- # cidr_block         = var.private_subnet_cidr
- # availability_zone  = var.availability_zone
-#}
+module "private_subnet_id" {
+  source             = "./modules/subnet"
+  default_vpc_id     = var.default_vpc_id
+}
