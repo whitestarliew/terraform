@@ -15,3 +15,8 @@ variable "private_subnet_cidr" {
   type        = string
   default     = "172.31.35.0/24"
 }
+
+variable "output_route_table" {
+  description = "output from the parent module"
+  type        = string
+}
