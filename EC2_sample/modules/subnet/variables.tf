@@ -6,8 +6,11 @@ variable "default_vpc_id" {
 
 variable "availability_zone" {
   description = "for availability zone"
-  type        = string
-  default     = "us-east-1a"
+  type        = map(string)
+  default     = {
+    first  = "us-east-1a"
+    second = "us-east-1b"
+  }
 }
 
 variable "private_subnet_cidr" {

@@ -36,8 +36,11 @@ variable "subnet_id" {
 
 variable "private_subnet_id" {
   description = "existing subnet for private instance"
-  type        = string
-  default     = "private-subnet"
+  type        = map(string)
+  default     = {
+    private = "private-subnet"
+    public  = "public-subnet"
+  }
 }
 
 variable "private_subnet_cidr" {
