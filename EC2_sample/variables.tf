@@ -42,8 +42,8 @@ variable "private_subnet_id" {
 
 variable "private_subnet_cidr" {
   description = "existing subnet for private instance"
-  type        = string
-  default     = "172.31.36.0/24"
+  type        = list(string)
+  default     = ["172.31.36.0/24", "0.0.0.0/0"]
 }
 
 variable "public_cidr" {

@@ -30,11 +30,6 @@ resource "aws_route_table" "private_route_table" {
   }
 }
 
-# Private Subnet Association Configuration
-# resource "aws_route_table_association" "private_subnet_association" {
-#   subnet_id      = module.private_subnet_id.output_private_subnet_id
-#   route_table_id = aws_route_table.private_route_table.id
-# }
 
 #EC2 instance
 resource "aws_instance" "private_instance" {
