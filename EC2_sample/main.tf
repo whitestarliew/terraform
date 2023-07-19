@@ -13,7 +13,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-
 data "aws_vpc" "default_vpc" {
   filter {
     name   = "tag:Name"
@@ -30,6 +29,32 @@ resource "aws_route_table" "private_route_table" {
   }
 }
 
+#security group
+resource "aws_security_group" "second_sg_group" {
+  name        = "second-security-group"
+  description = "Second security group"
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
 #EC2 instance
 resource "aws_instance" "private_instance" {
