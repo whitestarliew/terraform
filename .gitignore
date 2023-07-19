@@ -1,2 +1,4 @@
 *.exe
 *.mp4
+*.terraform.tfstate
+*terraform.tfstate.backup
