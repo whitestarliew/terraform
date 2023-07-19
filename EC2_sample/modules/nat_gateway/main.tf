@@ -5,3 +5,13 @@ resource "aws_nat_gateway" "terraform_nat" {
   tags = {
     Name = "New NAT for terraform"
   }
+
+resource "aws_eip" "example" {
+  vpc = true
+}
+
+
+output "output_NAT_Gateway" {
+  description = "This is a output nat gateway"
+  value = string  
+}

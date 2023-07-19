@@ -37,7 +37,7 @@ variable "subnet_id" {
 variable "private_subnet_id" {
   description = "existing subnet for private instance"
   type        = map(string)
-  default     = {
+  default = {
     private = "private-subnet"
     public  = "public-subnet"
   }

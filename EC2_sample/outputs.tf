@@ -13,5 +13,5 @@ output "vpc_id" {
 
 output "output_route_table" {
   description = "output for route table"
-  value = aws_route_table.private_route_table.id
+  value       = aws_route_table.private_route_table.id
 }
