@@ -20,7 +20,7 @@ data "aws_vpc" "default_vpc" {
   }
 }
 
-
+#
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
   vpc_id = data.aws_vpc.default_vpc.id
