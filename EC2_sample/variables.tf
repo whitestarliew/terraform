@@ -9,7 +9,6 @@ variable "default_vpc_id" {
   type        = string
   default     = "default-vpc"
 }
-
 variable "instance_type" {
   description = "This is a instance type"
   type        = string
@@ -23,6 +22,11 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "availability_zone" {
+  description = "for availability zone"
+  type        = string
+  default     = "us-east-1a"
+}
 variable "subnet_id" {
   description = "This is a default subnet id"
   type        = string
@@ -32,14 +36,17 @@ variable "subnet_id" {
 
 variable "private_subnet_id" {
   description = "existing subnet for private instance"
-  type        = string
-  default     = "private-subnet"
+  type        = map(string)
+  default = {
+    private = "private-subnet"
+    public  = "public-subnet"
+  }
 }
 
 variable "private_subnet_cidr" {
   description = "existing subnet for private instance"
-  type        = string
-  default     = "10.2.4.0/25"
+  type        = list(string)
+  default     = ["172.31.36.0/24", "0.0.0.0/0"]
 }
 
 variable "public_cidr" {

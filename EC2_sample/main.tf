@@ -13,64 +13,73 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Subnet Configuration
-resource "aws_subnet" "private_subnet" {
-  vpc_id                  = var.default_vpc_id
-  cidr_block              = var.private_subnet_cidr
-  availability_zone       = var.aws_region
-  map_public_ip_on_launch = false
+data "aws_vpc" "default_vpc" {
+  filter {
+    name   = "tag:Name"
+    values = [var.default_vpc_id]
+  }
 }
 
+#
 # Route Table Configuration
 resource "aws_route_table" "private_route_table" {
-  vpc_id = var.default_vpc_id
+  vpc_id = data.aws_vpc.default_vpc.id
+  tags = {
+    Name = "private subnet route table"
+  }
 }
 
-# Route Configuration
-resource "aws_route" "private_route" {
-  route_table_id         = aws_route_table.private_route_table.id
-  destination_cidr_block = var.public_cidr
-  nat_gateway_id         = module.nat_gateway
-}
+#security group
+resource "aws_security_group" "second_sg_group" {
+  name        = "second-security-group"
+  description = "Second security group"
 
-# Private Subnet Association Configuration
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_route_table.id
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 #EC2 instance
 resource "aws_instance" "private_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  subnet_id     = var.private_subnet_id
+  subnet_id     = module.private_subnet_id.output_private_subnet_id
   /* associate_public_ip_address = true */
   key_name = "terraform"
-
-
-  root_block_device {
-    volume_size = 20
-    volume_type = "gp2"
-  }
-
-  vpc_security_group_ids = ["sg-05ad0399a6c5dd340"] // Replace with your desired security group ID
 
   tags = {
     Name = "private Instance"
   }
 
-  depends_on = [module.nat_gateway]
-}
-#Module S3 Bucket
-module "aws_s3_bucket" {
-  source = "./modules"
+  root_block_device {
+    volume_size = 10
+    volume_type = "gp2"
+  }
 
+  vpc_security_group_ids = ["sg-05ad0399a6c5dd340"] // Replace with your desired security group ID
 }
 
-module "nat_gateway" {
-  source = "./modules/NAT_Gateway"
+
+
+module "private_subnet_id" {
+  source             = "./modules/subnet"
+  default_vpc_id     = var.default_vpc_id
+  output_route_table = aws_route_table.private_route_table.id
 }
-# module "autoscaling_example_asg_ec2" {
-#   source  = "terraform-aws-modules/autoscaling/aws//examples/asg_ec2"
-#   version = "2.0.0"
-# }
