@@ -12,6 +12,6 @@ resource "aws_eip" "sample_eip" {
 
 
 output "output_NAT_Gateway_id" {
-  description = "This is a output nat gateway"
+  description = "This is a output nat gateway."
   value = aws_nat_gateway.terraform_nat.id  
 }
