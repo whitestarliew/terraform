@@ -1,5 +1,0 @@
-*.exe
-*.mp4
-*.tfstate
-*.tfstate.backup
-*.terraform.lock.hcl
