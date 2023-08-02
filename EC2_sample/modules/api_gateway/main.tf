@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_apigatewayv2_api" "example_api" {
-  name          = "ralstonvm-api"
+  name          = "ralstonvm-api_1"
   protocol_type = "HTTP"
 }
 
