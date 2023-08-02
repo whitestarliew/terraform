@@ -1,4 +1,7 @@
 terraform {
+  backend "local" {
+    path = "terraform.tfstate"   #Backend no variablerized .
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -19,6 +22,7 @@ data "aws_vpc" "default_vpc" {
     values = [var.default_vpc_id]
   }
 }
+
 
 #
 # Route Table Configuration
