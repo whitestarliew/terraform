@@ -8,6 +8,7 @@ variable "default_vpc_id" {
   description = "ID of the default VPC"
   type        = string
   default     = "default-vpc"
+  sensitive   = false
 }
 variable "instance_type" {
   description = "This is a instance type"
