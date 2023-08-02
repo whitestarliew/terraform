@@ -13,6 +13,12 @@ resource "aws_route_table_association" "private_subnet_association" {
 
 }
 
+module "nat_gateway_id" {
+  source             = "./modules/nat_gateway"
+}
+
+
+
 output "output_private_subnet_id" {
   description = "ID of the private subnet"
   value       = aws_subnet.private_subnet.id
