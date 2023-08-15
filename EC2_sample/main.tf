@@ -1,7 +1,7 @@
 terraform {
-  backend "local" {
-    path = "terraform.tfstate"   #Backend no variablerized .
-  }
+  # backend "local" {
+  #   path = "terraform.tfstate"   #Backend no variablerized .
+  # }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
