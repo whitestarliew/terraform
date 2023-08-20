@@ -8,6 +8,7 @@ variable "default_vpc_id" {
   description = "ID of the default VPC"
   type        = string
   default     = "default-vpc"
+  sensitive   = false
 }
 variable "instance_type" {
   description = "This is a instance type"
@@ -19,7 +20,7 @@ variable "instance_type" {
 variable "aws_region" {
   description = "This is for AWS Region"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-west-2"
 }
 
 variable "availability_zone" {
