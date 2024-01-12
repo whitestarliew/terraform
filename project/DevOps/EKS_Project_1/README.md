@@ -30,3 +30,5 @@ Monitor and automate cost management: Implement proactive cost-saving measures w
 -----------------------------------------------
 Starting point :
 1.build up with EKS .
+2.Build S3 and Cloud watch. 
+3.Setup with Jenkins and cloud watch .<br />
