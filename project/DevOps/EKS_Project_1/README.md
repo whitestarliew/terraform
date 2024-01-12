@@ -1,9 +1,9 @@
 Tools and Services:
 
 CI/CD Platform:
-Jenkins: Open-source, popular choice, requires some server management.
+Jenkins: Open-source, popular choice, requires some server management.<br .>
 Tekton: Kubernetes-native, good for containerized workloads, requires more Kubernetes knowledge.
-AWS CodeBuild & CodePipeline: Cloud-based, integrates well with AWS services, might have limitations for complex pipelines.
+AWS CodeBuild & CodePipeline: Cloud-based, integrates well with AWS services, might have limitations for complex pipelines. <br />
 Version Control: Git (GitHub, GitLab, etc.)
 Container Registry:
 ECR: AWS-managed, integrates well with EKS, consider cost based on usage.
@@ -28,3 +28,5 @@ Use Spot Fleet for build agents: Leverage AWS Spot Fleet for cost-effective buil
 Optimize resource usage: Scale down or terminate pods in staging and production when not needed.
 Monitor and automate cost management: Implement proactive cost-saving measures with AWS Cost Explorer and CloudWatch.
 -----------------------------------------------
+Starting point :
+1.build up with EKS .
