@@ -1,6 +1,12 @@
-provider "aws" {
-  region = var.region
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.15"  # Or a higher version that supports EC2 Image Builder
+    }
+  }
 }
+
 
 resource "aws_imagebuilder_pipeline" "example" {
   name     = var.pipeline_name
@@ -23,12 +29,12 @@ resource "aws_imagebuilder_pipeline" "example" {
 resource "aws_imagebuilder_image_recipe" "example" {
   name = var.image_recipe_name
   version = var.image_recipe_version
-  parent_image = "arn:aws:imagebuilder:${var.region}:aws:image/${var.base_image_name}"
+  parent_image = "arn:aws:imagebuilder:${var.aws_region}:aws:image/${var.base_image_name}"
   component {
-    component_arn = "arn:aws:imagebuilder:${var.region}:aws:component/amazon-cloudwatch-agent-linux"
+    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/amazon-cloudwatch-agent-linux"
   }
   component {
-    component_arn = "arn:aws:imagebuilder:${var.region}:aws:component/ebs-volume-usage-test-linux"
+    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/ebs-volume-usage-test-linux"
   }
   block_device_mapping {
     device_name = "/dev/xvda"
