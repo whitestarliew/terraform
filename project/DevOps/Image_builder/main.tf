@@ -1,11 +1,22 @@
-provider "aws" {
-  region = var.region
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.15" 
+    }
+  }
 }
 
-resource "aws_imagebuilder_pipeline" "example" {
+provider "aws" {
+  region = var.aws_region  
+}
+
+resource "aws_imagebuilder_image_pipeline" "example" {
   name     = var.pipeline_name
   description = var.pipeline_description
-  schedule = "cron(0 0 * * ? *)"  # Manual schedule
+  schedule {
+    schedule_expression = "cron(0 0 * * ? *)" 
+  }
   tags = {
     Name = "testing"
   }
@@ -23,12 +34,12 @@ resource "aws_imagebuilder_pipeline" "example" {
 resource "aws_imagebuilder_image_recipe" "example" {
   name = var.image_recipe_name
   version = var.image_recipe_version
-  parent_image = "arn:aws:imagebuilder:${var.region}:aws:image/${var.base_image_name}"
+  parent_image = "arn:aws:imagebuilder:${var.aws_region}:aws:image/${var.base_image_name}"
   component {
-    component_arn = "arn:aws:imagebuilder:${var.region}:aws:component/amazon-cloudwatch-agent-linux"
+    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/amazon-cloudwatch-agent-linux"
   }
   component {
-    component_arn = "arn:aws:imagebuilder:${var.region}:aws:component/ebs-volume-usage-test-linux"
+    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/ebs-volume-usage-test-linux"
   }
   block_device_mapping {
     device_name = "/dev/xvda"
@@ -58,7 +69,7 @@ resource "aws_imagebuilder_distribution_configuration" "example" {
       name = "example-{{ imagebuilder:buildDate }}"
 
       launch_permission {
-        user_ids = ["123456789012"]
+        user_ids = ["236420077712"]
       }
     }
 
