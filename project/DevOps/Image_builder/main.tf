@@ -2,16 +2,21 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.15"  # Or a higher version that supports EC2 Image Builder
+      version = "~> 4.15" 
     }
   }
 }
 
+provider "aws" {
+  region = var.aws_region  
+}
 
-resource "aws_imagebuilder_pipeline" "example" {
+resource "aws_imagebuilder_image_pipeline" "example" {
   name     = var.pipeline_name
   description = var.pipeline_description
-  schedule = "cron(0 0 * * ? *)"  # Manual schedule
+  schedule {
+    schedule_expression = "cron(0 0 * * ? *)" 
+  }
   tags = {
     Name = "testing"
   }
@@ -64,7 +69,7 @@ resource "aws_imagebuilder_distribution_configuration" "example" {
       name = "example-{{ imagebuilder:buildDate }}"
 
       launch_permission {
-        user_ids = ["123456789012"]
+        user_ids = ["236420077712"]
       }
     }
 
