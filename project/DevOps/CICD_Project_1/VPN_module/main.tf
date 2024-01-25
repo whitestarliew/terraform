@@ -4,11 +4,17 @@ provider "aws" {
 
 data "aws_region" "current" {}
 
-# Create the VPC
 resource "aws_vpc" "testing-vpc" {
   cidr_block = "10.1.16.0/20"
   tags = {
     Name = "testing-vpc"
+  }
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.testing-vpc.id
+  tags = {
+    Name = "sample_igw"
   }
 }
 
@@ -38,7 +44,7 @@ resource "aws_route_table" "existing_route_table" {
   # Replace with the ID of your existing route table
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "igw-your-internet-gateway-id" # Replace with your IGW ID
+    gateway_id = aws_internet_gateway.igw.id
   }
 }
 
