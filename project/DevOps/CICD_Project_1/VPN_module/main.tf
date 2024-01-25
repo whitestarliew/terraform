@@ -12,11 +12,10 @@ resource "aws_vpc" "testing-vpc" {
   }
 }
 
-# Create public subnet
 resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.testing-vpc.id
-  cidr_block = cidrsubnet(aws_vpc.testing-vpc.cidr_block, 8) # /24 subnet
-  availability_zone = "us-east-1a" # Replace with your desired AZ
+  cidr_block = cidrsubnet(aws_vpc.testing-vpc.cidr_block, 8, 1)
+  availability_zone = "us-east-1a"
   map_public_ip_on_launch = true
   tags = {
     Name = "public-subnet-1a"
@@ -26,8 +25,8 @@ resource "aws_subnet" "public_subnet" {
 # Create private subnet
 resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.testing-vpc.id
-  cidr_block = cidrsubnet(aws_vpc.testing-vpc.cidr_block, 9) # /24 subnet
-  availability_zone = "us-east-1a" # Replace with your desired AZ
+  cidr_block = cidrsubnet(aws_vpc.testing-vpc.cidr_block, 8, 2)
+  availability_zone = "us-east-1a"
   tags = {
     Name = "private-subnet-1a"
   }
