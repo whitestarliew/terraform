@@ -7,6 +7,6 @@ terraform {
   }
 }
 
-module "vpc_module" {
-    source = ".//VPN_module"  
+module "eks_module" {
+  source = ".//EKS_module"  
 }
