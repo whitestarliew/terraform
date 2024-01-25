@@ -19,9 +19,9 @@ resource "aws_eks_cluster" "testing_eks" {
 
 resource "aws_eks_fargate_profile" "fargate_sample" {
   fargate_profile_name = "testing-fargate-profile"
-  podpod_execution_role_arn = ""
+  pod_execution_role_arn = ""
   selector {
-    match_labes = {
+    match_labels = {
       "app" = "sample-app"
     }
   }
