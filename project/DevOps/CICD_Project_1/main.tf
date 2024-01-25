@@ -8,5 +8,6 @@ terraform {
 }
 
 module "eks_module" {
-  source = ".//EKS_module"  
+  source = ".//EKS_module"
+  clustercluster_name = "testing-eks"  
 }
