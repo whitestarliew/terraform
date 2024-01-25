@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 1.2.9"
+      version = ">= 1.0.0"
       source  = "github.com/hashicorp/amazon"
     }
   }
@@ -20,32 +20,33 @@ variable "aws_region" {
 }
 
 data "amazon-parameterstore" "ami_id" {
-  name   = "/dev/ec2/ami"
+  name = "/dev/ec2/ami"
   region = "us-east-1"
 }
 
 source "amazon-ebs" "AmazonLinux2" {
-  ami_name             = "my-ami-{{timestamp}}"
-  instance_type        = "t2.micro"
-  region               = "us-east-1"
-  ssh_agent_auth       = true
-  ssh_username         = "ec2-user" 
-  source_ami           = data.amazon-parameterstore.ami_id.value
-  subnet_id            = var.subnet_id
-  security_group_id    = var.security_group_id
+  ami_name        = "my-ami-{{timestamp}}"
+  instance_type   = "t2.micro"
+  region          = "us-east-1"
+  ssh_keypair_name = "testing_ami"
+  ssh_username    = "ec2-user"  // Adjust if needed
+  source_ami      = data.amazon-parameterstore.ami_id.value
+  subnet_id       = "subnet-0e23051180b8f38c5"
 }
 
 build {
-  name    = "amazonlinux2-ami"
-  sources = ["source.amazon-ebs.AmazonLinux2"]
+  name      = "amazonlinux2-ami"
+  sources   = ["source.amazon-ebs.AmazonLinux2"]
 
   provisioner "shell" {
     inline = [
-      "curl -O https://dl.influxdata.com/influxdb/releases/influxdb2-2.7.4-1.x86_64.rpm",
-      "sudo yum localinstall -y influxdb2-2.7.4-1.x86_64.rpm",
-      "sudo service influxdb start",
-      "sudo service influxdb status",
+      "sudo chmod 755 /tmp/installation1.sh",
     ]
   }
-
 }
+
+
+
+
+
+
