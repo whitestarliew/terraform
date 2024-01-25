@@ -7,7 +7,11 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+  
+}
+
 module "eks_module" {
-  source = ".//EKS_module"
-  clustercluster_name = "testing-eks"  
+  source = "./EKS_module" 
 }

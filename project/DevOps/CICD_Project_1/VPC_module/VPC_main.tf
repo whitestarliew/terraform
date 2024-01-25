@@ -1,5 +1,5 @@
 provider "aws" {
-  region = var.aws_region # Replace with your desired AWS region
+  region = var.aws_region 
 }
 
 data "aws_region" "current" {}
@@ -37,6 +37,17 @@ resource "aws_subnet" "private_subnet" {
     Name = "private-subnet-1a"
   }
 }
+
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id = aws_vpc.testing-vpc.id
+  cidr_block = cidrsubnet(aws_vpc.testing-vpc.cidr_block, 7, 3)
+  availability_zone = "us-east-1b"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "public-subnet-1b"
+  }
+}
+
 
 # Use existing Internet Gateway and Route Table (Replace with their resource IDs)
 resource "aws_route_table" "existing_route_table" {
