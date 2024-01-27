@@ -13,6 +13,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "example" {
   bucket = "my-tf-test-bucket-235123151010121231532"
+  object_lock_enabled = false
 
   tags = {
     Name        = "For the testing"
