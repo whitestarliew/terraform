@@ -74,7 +74,7 @@ while IFS=':' read -r repo_path version_url; do
         printf "%d,%s,Docker,%s,%s,%s,%s,%s\n" "$row_number" "$repo_name" "$component_name" "$component_version" "$tag_file_path" "$content_type" "$file_size" >> "$output_file"
 
         row_number=$((row_number + 1))
-      fi
+      fi.
     done
   done
 done <<< "$website_content"
