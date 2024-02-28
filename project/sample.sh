@@ -1,84 +1,90 @@
-import requests
-from collections import namedtuple
-import csv
+import boto3
+import docker
 
-# Define a namedtuple to hold the extracted data
-ImageSummary = namedtuple(
-    "ImageSummary", ["repository", "format", "component_name", "component_version", "path"]
-)
+def lambda_handler(event, context):
+    # Replace with your actual values
+    s3_bucket = "your-bucket-name"
+    s3_file = "your-csv-file"
+    ecr_profile_name = "abc132"  # Assuming your ECR credentials are in profile named "abc132"
+    ecr_region = "us-east-1"
 
-def extract_summary_data(summary_url):
-    """Extracts summary data from a Docker image URL.
+    # Download CSV file from S3
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.get_object(Bucket=s3_bucket, Key=s3_file)
+        response.download_file(s3_file)
+        print(f"Successfully downloaded file from S3: {s3_file}")
+    except Exception as e:
+        print(f"Failed to download file from S3: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"Error downloading file from S3: {str(e)}"
+        }
 
-    Args:
-        summary_url (str): The URL of the Docker image summary page.
+    # Login to ECR using profile credentials
+    session = boto3.Session(profile_name=ecr_profile_name)
+    ecr_client = session.client('ecr', region_name=ecr_region)
+    try:
+        login_command = ecr_client.get_authorization_token(registryIds=[ecr_client.meta.region_endpoint])
+        docker_client = docker.from_env()
+        docker_client.login(
+            username=login_command['authorizationData'][0]['authorizationToken'],
+            email="",  # Remove email for security concerns
+            password="",  # Remove password for security concerns
+        )
+        print("Successfully logged in to ECR!")
+    except Exception as e:
+        print(f"Failed to log in to ECR: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"Error logging in to ECR: {str(e)}"
+        }
 
-    Returns:
-        ImageSummary: A namedtuple containing the extracted data.
-    """
+    # Process each line in the CSV file
+    with open(s3_file, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # Skip header row
+        for row in reader:
+            nexus_repo, nexus_tags, ecr_repo, ecr_tag = row
 
-    response = requests.get(summary_url)
-    response.raise_for_status()  # Raise an exception for non-200 status codes
+            # Pull image from Nexus
+            try:
+                image = f"{nexus_repo}:{nexus_tags}"
+                docker_client.images.pull(image)
+                print(f"Successfully pulled image: {image}")
+            except Exception as e:
+                print(f"Failed to pull image {image}: {e}")
+                continue  # Skip to next iteration on failure
 
-    # Replace with your actual parsing logic using the chosen library
-    # This part is left as an exercise for you, as it depends on your HTML parsing approach
+            # Tag the image for ECR
+            try:
+                ecr_image = f"{ecr_repo}:{ecr_tag}"
+                docker_client.images.tag(image, ecr_image)
+                print(f"Successfully tagged image: {image} -> {ecr_image}")
+            except Exception as e:
+                print(f"Failed to tag image: {e}")
+                continue  # Skip to next iteration on failure
 
-    # Fill the ImageSummary namedtuple with parsed data
-    data = ImageSummary(
-        repository="...",
-        format="...",
-        component_name="...",
-        component_version="...",
-        path="...",
-    )
+            # Push the image to ECR
+            try:
+                docker_client.images.push(ecr_image)
+                print(f"Successfully pushed image: {ecr_image}")
+            except Exception as e:
+                print(f"Failed to push image {ecr_image}: {e}")
+                continue  # Skip to next iteration on failure
 
-    return data
+            # Optionally remove pulled and pushed images
+            try:
+                docker_client.images.remove(image=image, force=True)
+                docker_client.images.remove(image=ecr_image, force=True)
+                print(f"Successfully removed images: {image} and {ecr_image}")
+            except Exception as e:
+                print(f"Failed to remove images: {e}")  # Ignore removal failures
 
-def process_subrepo(subrepo_url):
-    """Processes a subrepo and extracts image summary data.
+    # Optionally remove the downloaded file
+    # ... remove file code (implementation depends on your preference)
 
-    Args:
-        subrepo_url (str): The URL of the subrepo.
-    """
-
-    tag_folder_url = f"{subrepo_url}/tags/"
-
-    # Check if the "tags" folder exists
-    response = requests.get(tag_folder_url)
-    if response.status_code == 200:
-        # Get a list of image URLs within the "tags" folder
-        # (This might involve parsing the HTML content or using the Nexus API)
-        image_urls = [...]
-
-        for image_url in image_urls:
-            summary_data = extract_summary_data(image_url)
-            write_to_csv(summary_data)
-
-def write_to_csv(data):
-    """Writes the extracted data to a CSV file."""
-
-    with open("sample.csv", "a", newline="") as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow([data.repository, data.format, data.component_name, data.component_version, data.path])
-
-def main():
-    """Main function to process the Nexus repository."""
-
-    nexus_repo_url = "/abc/def/nexus/browse"
-
-    # Get a list of subrepo URLs (This might involve using the Nexus API)
-    subrepo_urls = [...]
-
-    # Open the CSV file in append mode (creates if it doesn't exist)
-    with open("sample.csv", "a", newline="") as csvfile:
-        writer = csv.writer(csvfile)
-
-        # Write the header row if the file is empty
-        if csvfile.tell() == 0:
-            writer.writerow(["repository", "format", "component_name", "component_version", "path"])
-
-        for subrepo_url in subrepo_urls:
-            process_subrepo(subrepo_url)
-
-if __name__ == "__main__":
-    main()
+    return {
+        'statusCode': 200,
+        'body': "Image pull and push process completed successfully."
+    }
