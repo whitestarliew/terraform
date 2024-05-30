@@ -1,4 +1,3 @@
-#########################################################################
 #Code Pipeline
 resource "aws_codepipeline" "regov_codepipeline" {
   name     = "regov-pipeline"

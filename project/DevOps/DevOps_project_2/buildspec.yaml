@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - pip install docker
+
+  build:
+    commands:
+      - docker build -t ${aws_ecr_repository.image_repo.uri}:latest .
+
+  post_build:
+    commands:
+      - aws ecr get-login-password --registry-ids ${aws_ecr_repository.image_repo.uri} | docker login --username AWS --password-stdin -
+      - docker push ${aws_ecr_repository.image_repo.uri}:latest
