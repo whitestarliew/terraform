@@ -45,4 +45,6 @@ resource "aws_codepipeline" "regov_codepipeline" {
       }
     }
   }
+  depends_on = [ aws_codebuild_project.regov_codebuild_project,
+                 aws_codecommit_repository.test ]
 }
