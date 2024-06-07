@@ -16,7 +16,7 @@ resource "aws_iam_role" "regov_iam_role" {
 }
 
 
-resource "aws_iam_role_policy" "example" {
+resource "aws_iam_role_policy" "regov_example" {
   role   = aws_iam_role.regov_iam_role.name
   policy = data.aws_iam_policy_document.regov_example.json
 }

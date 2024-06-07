@@ -61,3 +61,19 @@ data "aws_iam_policy_document" "regov_assume_role_2" {
     actions = ["sts:AssumeRole"]
   }
 }
+
+
+###SNS Topic 
+data "aws_iam_policy_document" "sns_topic_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["SNS:Publish"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    resources = [aws_sns_topic.aws_logins.arn]
+  }
+}

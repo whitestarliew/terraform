@@ -60,20 +60,6 @@ resource "aws_codebuild_project" "regov_codebuild_project" {
 
   source_version = "master"
 
-#   vpc_config {
-#     vpc_id = aws_vpc.example.id
-
-#     subnets = [
-#       aws_subnet.example1.id,
-#       aws_subnet.example2.id,
-#     ]
-
-#     security_group_ids = [
-#       aws_security_group.example1.id,
-#       aws_security_group.example2.id,
-#     ]
-#   }
-
   tags = {
     Environment = "Staging"
   }
