@@ -10,10 +10,10 @@ resource "aws_iam_role_policy" "regov_codepipeline_policy" {
   policy = data.aws_iam_policy_document.regov_codepipeline_assume_role.json
 }
 
-resource "aws_iam_role" "regov_iam_role" {
-  name               = "regov_iam_role_codebuild"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
+# resource "aws_iam_role" "regov_iam_role" {
+#   name               = "regov_iam_role_codebuild"
+#   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+# }
 
 
 resource "aws_iam_role_policy" "regov_example" {
